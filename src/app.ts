@@ -1,28 +1,21 @@
-import http from 'node:http';
-import fs from 'node:fs';
 import { resolve } from 'node:path';
+import express from 'express';
+import * as middlwares from './middleware';
 
-const PORT = process.env.PORT || 3000;
+const app = express();
 
-const indexPage = fs.readFileSync(resolve(__dirname, '../public/index.html'));
-const styles = fs.readFileSync(resolve(__dirname, '../public/style.css'));
-const programmer = fs.readFileSync(resolve(__dirname, '../public/programmer.gif'));
+app.use(middlwares.logger);
+app.use(express.static('public'));
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write(indexPage);
-  } else if (req.url === '/style.css') {
-    res.writeHead(200, { 'Content-Type': 'text/css' });
-    res.write(styles);
-  } else if (req.url === '/programmer.gif') {
-    res.writeHead(200, { 'Content-Type': 'image/gif' });
-    res.write(programmer);
-  }
-
-  res.end();
+app.get('/counter', (req, res) => {
 });
 
-server.listen(PORT, () => {
-  console.log('Server is running at http://localhost:%s', PORT);
+app.get('*/style.css', (req, res) => {
+  res.sendFile(resolve(__dirname, '../public/style.css'));
 });
+
+app.get('*', (req, res) => {
+  res.sendFile(resolve(__dirname, '../public/404.html'));
+});
+
+export default app;
