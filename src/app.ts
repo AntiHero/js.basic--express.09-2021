@@ -19,6 +19,35 @@ app.use(
 
 app.use(middlwares.logger);
 app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/secret', (req, res) => {
+  if (req.session) {
+    console.log((req.session as any).isAuthed);
+    if ((req.session as any).isAuthed) {
+      res.status(200).json('Secret!');
+    }
+  }
+
+  res.end();
+});
+
+app.post('/login', (req, res) => {
+  console.log(req.body);
+  const { username, password } = req.body;
+
+  // get hashPassword
+
+  const hashPassword = '123';
+
+  if (password === hashPassword) {
+    (req.session as any).isAuthed = true;
+    res.status(200).json('ok');
+  }
+
+  res.end();
+});
 
 app.get('/counter', (req, res) => {
   if (req.session) {
