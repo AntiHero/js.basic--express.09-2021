@@ -1,10 +1,12 @@
 import app from './app';
 import supertest from 'supertest';
 import { logger } from './middleware';
+//@ts-ignore
+import session from 'supertest-session';
 
 jest.mock('./middleware', () => ({
   logger: jest.fn((_, __, next) => next()),
-}))
+}));
 
 describe('GET /', function () {
   it('responds with html', function (done) {
@@ -14,7 +16,7 @@ describe('GET /', function () {
       .expect(200)
       .end(function (err, res) {
         if (err) return done(err);
-        expect(res.text).toMatch(/Express/)
+        expect(res.text).toMatch(/Express/);
 
         return done();
       });
@@ -29,5 +31,22 @@ describe('GET /', function () {
 
         return done();
       });
+  });
+
+  describe('testing sessions', () => {
+    let api: supertest.SuperTest<supertest.Test>;
+
+    beforeEach(() => {
+      api = session(app);
+    });
+
+    it('GET /counter returns number', function (done) {
+      api.get('/counter').end(function (err, res) {
+        if (err) return done(err);
+        expect(res.body).toBe(1);
+
+        return done();
+      });
+    });
   });
 });
