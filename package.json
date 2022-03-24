@@ -1,0 +1,30 @@
+{
+  "name": "js.basic--express.09-2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon ./src/app.ts -e ts.html",
+    "start": "ts-node ./src/app.ts" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntiHero/js.basic--express.09-2021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AntiHero/js.basic--express.09-2021/issues"
+  },
+  "homepage": "https://github.com/AntiHero/js.basic--express.09-2021#readme",
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}
