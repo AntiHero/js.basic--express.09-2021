@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon ./src/app.ts -e ts.html",
-    "start": "ts-node ./src/app.ts" 
+    "dev": "nodemon ./src/app.ts  -e ts,html",
+    "start": "ts-node ./src/app.ts"
   },
   "repository": {
     "type": "git",
