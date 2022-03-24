@@ -2,6 +2,7 @@ import { resolve } from 'node:path';
 import express from 'express';
 import * as middlwares from './middleware';
 import session from 'express-session';
+import booksRouter from './controllers/books.controllers';
 
 const app = express();
 
@@ -21,33 +22,34 @@ app.use(middlwares.logger);
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/books', booksRouter)
 
-app.get('/secret', (req, res) => {
-  if (req.session) {
-    console.log((req.session as any).isAuthed);
-    if ((req.session as any).isAuthed) {
-      res.status(200).json('Secret!');
-    }
-  }
-
-  res.end();
-});
-
-app.post('/login', (req, res) => {
-  console.log(req.body);
-  const { username, password } = req.body;
-
-  // get hashPassword
-
-  const hashPassword = '123';
-
-  if (password === hashPassword) {
-    (req.session as any).isAuthed = true;
-    res.status(200).json('ok');
-  }
-
-  res.end();
-});
+// app.get('/secret', (req, res) => {
+//   if (req.session) {
+//     console.log((req.session as any).isAuthed);
+//     if ((req.session as any).isAuthed) {
+//       res.status(200).json('Secret!');
+//     }
+//   }
+// 
+//   res.end();
+// });
+// 
+// app.post('/login', (req, res) => {
+//   console.log(req.body);
+//   const { username, password } = req.body;
+// 
+//   // get hashPassword
+// 
+//   const hashPassword = '123';
+// 
+//   if (password === hashPassword) {
+//     (req.session as any).isAuthed = true;
+//     res.status(200).json('ok');
+//   }
+// 
+//   res.end();
+// });
 
 app.get('/counter', (req, res) => {
   if (req.session) {
@@ -59,6 +61,7 @@ app.get('/counter', (req, res) => {
 
   res.end();
 });
+
 
 app.get('*/style.css', (req, res) => {
   res.sendFile(resolve(__dirname, '../public/style.css'));
