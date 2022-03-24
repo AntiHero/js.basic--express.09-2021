@@ -3,6 +3,7 @@ import express from 'express';
 import * as middlwares from './middleware';
 import cookieSession from 'express-session';
 import booksRouter from './controllers/books.controllers';
+import './types/index';
 
 const app = express();
 
@@ -13,8 +14,6 @@ app.use(
     name: 'kewlCookie',
     secret: 'sfajnh4faAN99',
     cookie: { maxAge: oneDay },
-    resave: false,
-    saveUninitialized: false,
   })
 );
 
@@ -22,7 +21,7 @@ app.use(middlwares.logger);
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/books', booksRouter)
+app.use('/api/books', booksRouter);
 
 app.get('/secret', (req, res) => {
   if (req.session) {
@@ -64,7 +63,6 @@ app.get('/counter', (req, res) => {
 
   res.end();
 });
-
 
 app.get('*/style.css', (req, res) => {
   res.sendFile(resolve(__dirname, '../public/style.css'));
